@@ -319,7 +319,8 @@ def main():
 
     # --- 6. Detect Anomalies ---
     # Using the globally defined X_train_normal_global for threshold calculation
-    anomalies_detected, all_reconstruction_errors, threshold = detect_anomalies(trained_model, X_all_sequences, threshold_percentile=98)
+    threshold_percentile_for_plot = 98 # <--- Defined here
+    anomalies_detected, all_reconstruction_errors, threshold = detect_anomalies(trained_model, X_all_sequences, threshold_percentile=threshold_percentile_for_plot)
 
     # --- 7. Evaluation and Visualization ---
     print("\n--- Anomaly Detection Results ---")
@@ -360,7 +361,8 @@ def main():
         plt.plot(actual_anomaly_indices, all_reconstruction_errors[actual_anomaly_indices], 
                  'ro', markersize=4, label='Actual Anomalies')
         
-    plt.axhline(y=threshold, color='r', linestyle='--', label=f'Anomaly Threshold ({threshold_percentile}th percentile)')
+    # Use the captured threshold_percentile_for_plot here
+    plt.axhline(y=threshold, color='r', linestyle='--', label=f'Anomaly Threshold ({threshold_percentile_for_plot}th percentile)')
     plt.title('CAN Bus Anomaly Detection: Reconstruction Errors')
     plt.xlabel('Sequence Index')
     plt.ylabel('Reconstruction Error (MSE)')
